@@ -89,5 +89,5 @@ jobs:
         if: always()
         with:
           name: mlflow-experiment-runs
-          path: mlruns/
+          path: mlruns.db
           retention-days: 30

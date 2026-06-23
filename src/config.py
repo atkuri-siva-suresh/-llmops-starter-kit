@@ -22,7 +22,7 @@ class Config:
     EMBED_DEVICE: str = os.getenv("EMBED_DEVICE", "cpu")
 
     # ── MLflow ────────────────────────────────────────────────────────────────
-    MLFLOW_TRACKING_URI: str = os.getenv("MLFLOW_TRACKING_URI", "mlruns")
+    MLFLOW_TRACKING_URI: str = os.getenv("MLFLOW_TRACKING_URI", "sqlite:///mlruns.db")
     MLFLOW_EXPERIMENT_NAME: str = os.getenv(
         "MLFLOW_EXPERIMENT_NAME", "llmops-starter-kit"
     )
