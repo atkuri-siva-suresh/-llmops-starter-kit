@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLMOps Starter Kit — Interview Preparation Guide</title>
+<style>
+  :root {
+    --primary: #7c3aed;
+    --primary-light: #ede9fe;
+    --primary-dark: #5b21b6;
+    --accent: #0891b2;
+    --accent-light: #e0f2fe;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --orange: #d97706;
+    --orange-light: #fef3c7;
+    --gray: #374151;
+    --gray-light: #f3f4f6;
+    --gray-mid: #9ca3af;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    color: var(--gray);
+    background: #fafafa;
+    font-size: 15px;
+  }
+  .page-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--accent) 100%);
+    color: white;
+    padding: 48px 40px 40px;
+    text-align: center;
+  }
+  .page-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .page-header .subtitle { font-size: 1.05rem; opacity: 0.88; max-width: 600px; margin: 0 auto 16px; }
+  .badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+  .section {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-top: 28px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .section-header {
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header.purple { background: var(--primary-light); }
+  .section-header.blue   { background: var(--accent-light); }
+  .section-header.green  { background: var(--green-light); }
+  .section-header.orange { background: var(--orange-light); }
+  .section-header.red    { background: var(--red-light); }
+  .section-header.gray   { background: var(--gray-light); }
+  .section-number {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+    color: white;
+  }
+  .num-purple { background: var(--primary); }
+  .num-blue   { background: var(--accent); }
+  .num-green  { background: var(--green); }
+  .num-orange { background: var(--orange); }
+  .num-red    { background: var(--red); }
+  .num-gray   { background: var(--gray); }
+  .section-title { font-size: 1.1rem; font-weight: 700; }
+  .section-neuro { font-size: 0.75rem; font-weight: 600; opacity: 0.65; margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-body { padding: 24px 28px; }
+
+  /* Primacy box */
+  .primacy-box {
+    background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.5;
+    text-align: center;
+  }
+  .primacy-box .hook { font-size: 0.85rem; font-weight: 400; color: var(--primary); margin-top: 8px; }
+
+  /* Story box */
+  .story-box {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+  }
+  .story-box .label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--accent); margin-bottom: 6px;
+  }
+
+  /* Analogy */
+  .analogy-card {
+    background: var(--primary-light);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .analogy-card .analogy-title {
+    font-weight: 800; font-size: 1rem;
+    color: var(--primary-dark); margin-bottom: 8px;
+  }
+
+  /* Loci rooms */
+  .loci-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .loci-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .loci-header {
+    padding: 10px 14px;
+    font-weight: 700; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .loci-header .room-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--primary); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 800; flex-shrink: 0;
+  }
+  .loci-body { padding: 10px 14px 14px; font-size: 0.88rem; }
+  .loci-body .key { font-weight: 700; color: var(--primary-dark); font-size: 0.82rem; }
+  .loci-body .detail { color: #555; margin-top: 3px; }
+  .loci-body code {
+    background: var(--gray-light); padding: 1px 6px; border-radius: 4px;
+    font-size: 0.78rem; font-family: monospace;
+  }
+
+  /* Metric boxes */
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 600px) { .metrics-row { grid-template-columns: 1fr; } }
+  .metric-box {
+    border-radius: 10px; padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .metric-box .metric-name {
+    font-weight: 800; font-size: 0.9rem; margin-bottom: 6px;
+  }
+  .metric-box .metric-formula {
+    font-family: monospace; font-size: 0.82rem;
+    background: rgba(0,0,0,0.05); padding: 8px;
+    border-radius: 6px; margin: 8px 0;
+  }
+  .metric-box .metric-detail { font-size: 0.83rem; color: #555; }
+  .m-purple { border-top: 3px solid var(--primary); }
+  .m-blue   { border-top: 3px solid var(--accent); }
+  .m-green  { border-top: 3px solid var(--green); }
+
+  /* Contrast pairs */
+  .contrast-pair {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; margin-bottom: 12px;
+  }
+  .contrast-pair .vs-label {
+    grid-column: 1 / -1;
+    background: var(--gray-light);
+    padding: 8px 16px;
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--gray);
+    border-bottom: 1px solid var(--border);
+  }
+  .contrast-side { padding: 14px 16px; font-size: 0.88rem; }
+  .side-no  { background: var(--red-light); border-right: 1px solid var(--border); }
+  .side-yes { background: var(--green-light); }
+  .side-no .side-label  { color: var(--red);   font-weight: 700; font-size: 0.78rem; margin-bottom: 4px; }
+  .side-yes .side-label { color: var(--green); font-weight: 700; font-size: 0.78rem; margin-bottom: 4px; }
+
+  /* Q&A table */
+  .qa-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .qa-table th {
+    background: var(--primary);
+    color: white; padding: 10px 14px;
+    text-align: left; font-weight: 700;
+  }
+  .qa-table td { padding: 11px 14px; vertical-align: top; border-bottom: 1px solid var(--border); }
+  .qa-table tr:last-child td { border-bottom: none; }
+  .qa-table tr:nth-child(even) td { background: var(--gray-light); }
+  .qa-q { font-weight: 600; color: var(--primary-dark); }
+  .qa-a { color: #333; }
+  .qa-trap { color: var(--red); font-size: 0.8rem; font-style: italic; margin-top: 4px; }
+
+  /* Active recall */
+  .recall-box {
+    background: var(--orange-light);
+    border: 1px solid var(--orange);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-top: 20px;
+  }
+  .recall-box h4 { color: var(--orange); font-size: 0.9rem; margin-bottom: 10px; }
+  .recall-box ol { padding-left: 18px; }
+  .recall-box li { margin-bottom: 6px; font-size: 0.88rem; }
+  .recall-answer { color: #666; font-size: 0.83rem; margin-top: 3px; font-style: italic; }
+
+  /* Cheat sheet */
+  .cheat-sheet {
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    margin-top: 28px;
+    overflow: hidden;
+  }
+  .cheat-header {
+    background: var(--primary);
+    color: white;
+    padding: 14px 24px;
+    font-weight: 800; font-size: 1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cheat-body { padding: 20px 24px; }
+  .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .cheat-grid { grid-template-columns: 1fr; } }
+  .cheat-col h4 { color: var(--primary-dark); font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .cheat-col ul { list-style: none; padding: 0; }
+  .cheat-col li { font-size: 0.85rem; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+  .cheat-col li:last-child { border-bottom: none; }
+  .cheat-col li strong { color: var(--primary-dark); }
+
+  /* Misc */
+  p { margin-bottom: 12px; }
+  p:last-child { margin-bottom: 0; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; }
+  code {
+    background: var(--gray-light); padding: 1px 6px;
+    border-radius: 4px; font-size: 0.87em; font-family: monospace;
+  }
+  .highlight { color: var(--primary-dark); font-weight: 700; }
+  .tip {
+    background: var(--green-light); border-left: 3px solid var(--green);
+    padding: 10px 14px; border-radius: 0 6px 6px 0;
+    font-size: 0.87rem; margin-top: 14px;
+  }
+  .tip strong { color: var(--green); }
+  .warning {
+    background: var(--red-light); border-left: 3px solid var(--red);
+    padding: 10px 14px; border-radius: 0 6px 6px 0;
+    font-size: 0.87rem; margin-top: 10px;
+  }
+  .warning strong { color: var(--red); }
+  h3 { font-size: 0.95rem; font-weight: 700; margin: 18px 0 8px; color: var(--gray); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  .flow-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 14px 0; font-size: 0.88rem; }
+  .flow-box { background: var(--primary-light); border: 1px solid var(--primary); border-radius: 6px; padding: 5px 12px; font-weight: 600; color: var(--primary-dark); white-space: nowrap; }
+  .flow-arrow { color: var(--gray-mid); font-weight: 700; }
+  table.simple { width: 100%; border-collapse: collapse; font-size: 0.87rem; margin-top: 10px; }
+  table.simple th { background: var(--gray-light); padding: 8px 12px; font-weight: 700; text-align: left; border: 1px solid var(--border); }
+  table.simple td { padding: 8px 12px; border: 1px solid var(--border); }
+  .tag { display: inline-block; background: var(--primary-light); color: var(--primary-dark); border-radius: 4px; padding: 2px 8px; font-size: 0.77rem; font-weight: 700; margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>LLMOps Starter Kit</h1>
+  <p class="subtitle">Interview Preparation Guide — Neuroscience-Structured</p>
+  <div class="badge-row">
+    <span class="badge">Groq (Llama 3.3 70B)</span>
+    <span class="badge">MLflow Tracking</span>
+    <span class="badge">Prometheus Metrics</span>
+    <span class="badge">Mann-Whitney A/B</span>
+    <span class="badge">Z-Score Drift</span>
+    <span class="badge">FastAPI · Gradio</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 1 — PRIMACY (one-sentence answer)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header purple">
+    <div class="section-number num-purple">1</div>
+    <div class="section-title">The One-Sentence Answer</div>
+    <div class="section-neuro">Primacy Effect</div>
+  </div>
+  <div class="section-body">
+    <div class="primacy-box">
+      "I built a production LLMOps toolkit that treats prompt changes like software releases —
+      with YAML versioning, statistical A/B testing, z-score drift detection, and automated alert rules,
+      all instrumented with Prometheus metrics on every inference call."
+      <div class="hook">Say this in the first 30 seconds. Everything else is detail.</div>
+    </div>
+
+    <div class="tip" style="margin-top: 18px;">
+      <strong>Recruiter trigger words:</strong>
+      <em>monitoring, observability, drift detection, A/B testing, Prometheus, MLflow</em> —
+      these appear in job descriptions at Arize AI, Anthropic, and Glean verbatim.
+      Use them naturally.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 2 — PROBLEM STORY (emotional anchor)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header blue">
+    <div class="section-number num-blue">2</div>
+    <div class="section-title">The Problem Story</div>
+    <div class="section-neuro">Emotional Anchoring</div>
+  </div>
+  <div class="section-body">
+    <div class="story-box">
+      <div class="label">The "blind push" problem</div>
+      A team ships a RAG system. It works in demo. Three weeks later, users complain
+      answers are vague and off-topic. The team has no idea what changed — or when it changed.
+      They added a new document corpus, tweaked the prompt twice, and updated the model.
+      Which one broke it? They have no data. They eyeball a few answers and push another guess.
+    </div>
+
+    <p>
+      This is the default state of most LLM deployments.
+      <span class="highlight">Deploying an LLM is not the finish line — it's the starting gun for monitoring.</span>
+    </p>
+
+    <p>
+      Software teams solved this 20 years ago: version control, CI/CD, metrics, alerts.
+      LLM teams are repeating the same mistakes from the pre-DevOps era.
+      This project applies those solved patterns to the LLM layer:
+    </p>
+
+    <ul>
+      <li><strong>Prompt changes</strong> are versioned in YAML and git — auditable like code</li>
+      <li><strong>Quality regressions</strong> are caught statistically, not by eyeballing</li>
+      <li><strong>Drift</strong> is detected automatically before users notice</li>
+      <li><strong>Every inference call</strong> is instrumented — latency, tokens, error rate</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Don't say:</strong> "I built a dashboard to monitor LLMs."<br>
+      <strong>Say:</strong> "I built the infrastructure that lets teams catch prompt regressions before they reach users."
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 3 — CORE CONCEPT (analogy anchor)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header green">
+    <div class="section-number num-green">3</div>
+    <div class="section-title">What LLMOps Is — The Mission Control Analogy</div>
+    <div class="section-neuro">Prior Knowledge Anchoring</div>
+  </div>
+  <div class="section-body">
+    <div class="analogy-card">
+      <div class="analogy-title">Analogy: NASA Mission Control</div>
+      <p>
+        When NASA launches a rocket, they don't fire it and walk away.
+        Mission Control watches telemetry in real time — thrust, trajectory, temperature.
+        They have threshold alerts. When a reading drifts outside the expected range,
+        an alarm fires before the rocket goes off-course.
+      </p>
+      <p style="margin-top: 8px;">
+        <strong>LLMOps is Mission Control for your LLM.</strong><br>
+        The rocket = your LLM system.<br>
+        Telemetry = latency, token counts, faithfulness scores.<br>
+        Trajectory drift = quality regressions across prompt versions.<br>
+        Threshold alerts = faithfulness &lt; 0.70, latency &gt; 3000ms.
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>What the toolkit monitors</h3>
+        <ul>
+          <li><strong>Per-call:</strong> latency, token counts, error rate</li>
+          <li><strong>Per-run:</strong> faithfulness, relevancy, context precision</li>
+          <li><strong>Cross-run:</strong> drift (rolling z-score vs. baseline)</li>
+          <li><strong>On change:</strong> A/B test before deploying new prompts</li>
+        </ul>
+      </div>
+      <div>
+        <h3>What fires an alert</h3>
+        <table class="simple">
+          <tr><th>Rule</th><th>Trigger</th></tr>
+          <tr><td>faithfulness_low</td><td>&lt; 0.70 → CRITICAL</td></tr>
+          <tr><td>relevancy_degraded</td><td>&lt; 0.65 → WARNING</td></tr>
+          <tr><td>latency_high</td><td>&gt; 3000ms → WARNING</td></tr>
+          <tr><td>precision_low</td><td>&lt; 0.60 → INFO</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 4 — ARCHITECTURE WALKTHROUGH (method of loci)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header orange">
+    <div class="section-number num-orange">4</div>
+    <div class="section-title">Architecture Walkthrough</div>
+    <div class="section-neuro">Method of Loci</div>
+  </div>
+  <div class="section-body">
+    <p>
+      <strong>Memory anchor: walk through a building with 7 rooms.</strong>
+      Each room = one system component. Visualize it physically.
+    </p>
+
+    <div class="flow-row">
+      <span class="flow-box">YAML Prompts</span><span class="flow-arrow">→</span>
+      <span class="flow-box">Registry</span><span class="flow-arrow">→</span>
+      <span class="flow-box">Gateway</span><span class="flow-arrow">→</span>
+      <span class="flow-box">MLflow</span><span class="flow-arrow">→</span>
+      <span class="flow-box">Drift</span><span class="flow-arrow">→</span>
+      <span class="flow-box">Alerts</span><span class="flow-arrow">→</span>
+      <span class="flow-box">UI / API</span>
+    </div>
+
+    <div class="loci-grid" style="margin-top: 16px;">
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#ede9fe">
+          <div class="room-num">1</div>
+          Prompt Registry (The Library)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">YAML files in <code>prompts/</code> directory. Each file = one versioned prompt template.</div>
+          <div class="key" style="margin-top:8px">Why YAML:</div>
+          <div class="detail">Git-trackable. Human-readable. <code>git blame</code> shows who changed what and when. PR-reviewable.</div>
+          <div class="key" style="margin-top:8px">Key operation:</div>
+          <div class="detail"><code>registry.render("rag_qa_v1", context=..., question=...)</code> — raises <code>ValueError</code> for missing variables.</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#e0f2fe">
+          <div class="room-num">2</div>
+          Inference Gateway (The Toll Booth)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">Single entry point for ALL LLM calls. Every call is instrumented — nothing bypasses it.</div>
+          <div class="key" style="margin-top:8px">Prometheus metrics:</div>
+          <div class="detail">
+            <code>llm_requests_total</code> (Counter)<br>
+            <code>llm_latency_seconds</code> (Histogram, 6 buckets)<br>
+            <code>llm_tokens_total</code> (Counter, prompt + completion)<br>
+            <code>llm_error_rate</code> (Gauge, rolling 100-req)
+          </div>
+          <div class="key" style="margin-top:8px">SDK choice:</div>
+          <div class="detail">groq SDK directly (not LangChain) — exact token counts from <code>response.usage</code>.</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#dcfce7">
+          <div class="room-num">3</div>
+          MLflow Tracker (The Ledger)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">Logs every evaluation run as an MLflow experiment run. One experiment per project, one run per eval.</div>
+          <div class="key" style="margin-top:8px">Key pattern:</div>
+          <div class="detail">Prompt version stored as run <strong>TAG</strong> (not param) — keeps hyperparameter space clean. Template text logged as artifact for auditability.</div>
+          <div class="key" style="margin-top:8px">Context manager:</div>
+          <div class="detail"><code>with tracker.start_run("eval-v1"):</code> — run auto-ends on exit.</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#fef3c7">
+          <div class="room-num">4</div>
+          Drift Detector (The Seismograph)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">Rolling window z-score comparison. Baseline = first N runs (locked). Window = latest N runs (rolling).</div>
+          <div class="key" style="margin-top:8px">Formula:</div>
+          <div class="detail"><code>z = (window_mean − baseline_mean) / baseline_std</code><br>|z| &gt; 1.5σ → DRIFT</div>
+          <div class="key" style="margin-top:8px">Direction:</div>
+          <div class="detail">"degraded" if score drops, "improved" if rises (both trigger — unexpected improvements also warrant investigation).</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#fee2e2">
+          <div class="room-num">5</div>
+          Alert Engine (The Pager)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">Evaluates AlertRule definitions against incoming metric dicts. Maintains active/history state.</div>
+          <div class="key" style="margin-top:8px">Cooldown:</div>
+          <div class="detail">Default 300s per rule — prevents alert storms on repeated metric evaluations.</div>
+          <div class="key" style="margin-top:8px">Lifecycle:</div>
+          <div class="detail">FIRING → RESOLVED (auto when metrics recover, or manual <code>acknowledge_alert()</code>).</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#f3f4f6">
+          <div class="room-num">6</div>
+          A/B Test Runner (The Referee)
+        </div>
+        <div class="loci-body">
+          <div class="key">What:</div>
+          <div class="detail">Runs the same question set through two prompt versions. Applies Mann-Whitney U for significance.</div>
+          <div class="key" style="margin-top:8px">Key output:</div>
+          <div class="detail">p-value, winner, rank-biserial effect size (range −1 to +1), recommendation string.</div>
+          <div class="key" style="margin-top:8px">CI mode:</div>
+          <div class="detail"><code>--fail-on-regression</code>: exits with code 1 if B is significantly WORSE than A — blocks the merge.</div>
+        </div>
+      </div>
+
+      <div class="loci-card">
+        <div class="loci-header" style="background:#ede9fe">
+          <div class="room-num">7</div>
+          UI + API (The Control Room)
+        </div>
+        <div class="loci-body">
+          <div class="key">Gradio (port 7862):</div>
+          <div class="detail">4 tabs: Prompt Lab, A/B Test, Monitor, Alerts. Calls src/* modules directly.</div>
+          <div class="key" style="margin-top:8px">FastAPI (port 8000):</div>
+          <div class="detail">14 endpoints. <code>/metrics</code> returns Prometheus text format. <code>/drift</code>, <code>/alerts/*</code>, <code>/experiments</code>.</div>
+          <div class="key" style="margin-top:8px">MLflow UI (port 5000):</div>
+          <div class="detail"><code>mlflow ui</code> — view all A/B runs, compare metrics, see prompt artifacts.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 5 — THREE TECHNICAL PILLARS (rule of 3)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header purple">
+    <div class="section-number num-purple">5</div>
+    <div class="section-title">Three Technical Pillars</div>
+    <div class="section-neuro">Rule of Three</div>
+  </div>
+  <div class="section-body">
+    <div class="metrics-row">
+
+      <div class="metric-box m-purple">
+        <div class="metric-name">Pillar 1: Drift Detection</div>
+        <div class="metric-formula">
+          z = (μ_window − μ_baseline) / σ_baseline<br>
+          |z| > 1.5σ → DRIFT
+        </div>
+        <div class="metric-detail">
+          <strong>Why z-score not threshold?</strong>
+          A model scoring 0.68 faithfulness consistently shouldn't alert at 0.69.
+          Z-score adapts to your baseline variance — if the model is rock-solid,
+          a 0.02 drop is suspicious; if it's naturally noisy, it isn't.
+          This is how Arize AI and Fiddler AI detect drift in production.
+        </div>
+      </div>
+
+      <div class="metric-box m-blue">
+        <div class="metric-name">Pillar 2: A/B Testing</div>
+        <div class="metric-formula">
+          Mann-Whitney U<br>
+          p &lt; 0.05 → significant<br>
+          effect_size = 1 − (2U / n₁n₂)
+        </div>
+        <div class="metric-detail">
+          <strong>Why Mann-Whitney not t-test?</strong>
+          Faithfulness scores (0.0–1.0) are bounded and non-normal.
+          t-test assumes normal distribution — incorrect here.
+          Mann-Whitney is non-parametric: it ranks all scores together
+          and tests if one group tends to have higher ranks.
+          Works correctly with n=5–10 samples.
+        </div>
+      </div>
+
+      <div class="metric-box m-green">
+        <div class="metric-name">Pillar 3: Prometheus Metrics</div>
+        <div class="metric-formula">
+          Counter, Histogram, Gauge<br>
+          /metrics endpoint<br>
+          label: prompt_name + status
+        </div>
+        <div class="metric-detail">
+          <strong>Why Prometheus client?</strong>
+          One pip install produces a proper <code>/metrics</code> endpoint
+          that Prometheus and Grafana scrape in production.
+          No infrastructure change needed to go from demo to production — just
+          point your Prometheus config at the endpoint.
+          Labels by <code>prompt_name</code> enable per-prompt dashboards.
+        </div>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top: 22px;">The Evaluation Metrics (same signal as RAGAS, zero dependency conflicts)</h3>
+    <table class="simple">
+      <tr>
+        <th>Metric</th>
+        <th>Method</th>
+        <th>Cost</th>
+        <th>Formula</th>
+      </tr>
+      <tr>
+        <td><strong>Context Precision</strong></td>
+        <td>Jaccard similarity, stopword-filtered</td>
+        <td>Free (pure Python)</td>
+        <td>relevant_chunks / total_chunks where Jaccard ≥ 0.05</td>
+      </tr>
+      <tr>
+        <td><strong>Faithfulness</strong></td>
+        <td>LLM judge (Groq Llama)</td>
+        <td>~1 API call</td>
+        <td>1 − (unsupported_claims / total_claims)</td>
+      </tr>
+      <tr>
+        <td><strong>Answer Relevancy</strong></td>
+        <td>Embedding cosine similarity</td>
+        <td>Free (local model)</td>
+        <td>mean(cosine(embed(synthetic_q_i), embed(original_q)))</td>
+      </tr>
+      <tr>
+        <td><strong>Overall Score</strong></td>
+        <td>Weighted composite</td>
+        <td>—</td>
+        <td>0.3×precision + 0.4×faithfulness + 0.3×relevancy</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 6 — DESIGN DECISIONS (contrast pairs)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header red">
+    <div class="section-number num-red">6</div>
+    <div class="section-title">Design Decisions as Contrast Pairs</div>
+    <div class="section-neuro">Contrast Effect</div>
+  </div>
+  <div class="section-body">
+    <p style="margin-bottom: 16px;">
+      The brain remembers contrasts better than isolated facts.
+      For each decision, memorize what you <em>didn't</em> do and why.
+    </p>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 1: Prompt storage</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>Database / SQLite</strong><br>
+        Opaque. "Who changed this prompt?" requires a database query.
+        Not PR-reviewable. Hard to roll back. Separate from your codebase.
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>YAML files in git</strong><br>
+        <code>git blame prompts/rag_qa_v1.yaml</code> shows who, when, and why.
+        PR-reviewable. Rollback = <code>git revert</code>. Lives with the codebase.
+        This is how Anthropic and Glean manage prompts in production.
+      </div>
+    </div>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 2: Drift detection method</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>Fixed threshold ("alert if &lt; 0.70")</strong><br>
+        Brittle. A model that always scores 0.68 fires on every run.
+        A model that usually scores 0.95 but drops to 0.72 doesn't fire.
+        The threshold doesn't adapt to baseline variance.
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>Z-score against rolling baseline</strong><br>
+        Adapts to your specific model's variance.
+        Same math used by Arize AI, Evidently, and Fiddler for production ML monitoring.
+        Catches meaningful regressions without crying wolf on natural noise.
+      </div>
+    </div>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 3: Statistical test for A/B</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>Welch's t-test</strong><br>
+        Assumes normal distribution. Faithfulness scores are bounded [0,1]
+        and often bimodal (very faithful or very not). Incorrect for n=5–10 samples.
+        The t-test p-value is meaningless here.
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>Mann-Whitney U (non-parametric)</strong><br>
+        Makes no normality assumption. Works on ranks, not values.
+        Correct for bounded non-normal distributions at small sample sizes.
+        Plus: rank-biserial correlation gives interpretable effect size.
+      </div>
+    </div>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 4: LLM SDK choice</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>langchain-groq</strong><br>
+        Fine for chains, but wraps token counting inconsistently.
+        Adds ~15 transitive dependencies for a gateway that just needs
+        to call an API and count tokens exactly.
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>groq SDK directly</strong><br>
+        <code>response.usage.prompt_tokens</code> is exact, always.
+        Minimal surface area. Shows provider SDK knowledge beyond LangChain abstractions.
+        Prometheus metrics per <code>prompt_name</code> label work cleanly.
+      </div>
+    </div>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 5: MLflow run tags vs. params</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>Log prompt version as MLflow param</strong><br>
+        Parameters are treated as hyperparameters — they pollute the param space
+        and break the "Compare Runs" view in MLflow UI
+        (it tries to plot them as numeric axes).
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>Log prompt version as MLflow tag</strong><br>
+        Tags are metadata — they appear in the runs table but don't interfere
+        with metric comparison charts. <code>prompt.name</code> and
+        <code>prompt.version</code> as tags is the idiomatic MLflow pattern.
+      </div>
+    </div>
+
+    <div class="contrast-pair">
+      <div class="vs-label">Decision 6: Prometheus metrics registry</div>
+      <div class="contrast-side side-no">
+        <div class="side-label">NOT THIS</div>
+        <strong>Metrics inside the class __init__</strong><br>
+        Gradio reloads modules on change (hot-reload).
+        Re-importing triggers <code>ValueError: Duplicated timeseries</code>
+        from Prometheus — the Counter is registered twice.
+      </div>
+      <div class="contrast-side side-yes">
+        <div class="side-label">THIS</div>
+        <strong>Metrics at module level with try/except</strong><br>
+        Module-level globals are initialized once. The try/except pattern
+        catches the duplicate registration and retrieves the existing collector.
+        Survives Gradio hot-reload and test suite re-imports cleanly.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SECTION 7 — HARD Q&A (active retrieval)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header gray">
+    <div class="section-number num-gray">7</div>
+    <div class="section-title">Hard Interview Q&amp;A</div>
+    <div class="section-neuro">Active Retrieval · Spaced Repetition</div>
+  </div>
+  <div class="section-body">
+
+    <table class="qa-table">
+      <thead>
+        <tr>
+          <th style="width:38%">Question</th>
+          <th style="width:62%">Answer</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="qa-q">How is your drift detection different from just setting an alert threshold?</td>
+          <td class="qa-a">
+            A fixed threshold (e.g., "alert if faithfulness &lt; 0.70") is brittle — it fires on every natural variance
+            below that line, and misses meaningful drops above it. Z-score compares current performance against
+            <em>your specific baseline distribution</em>. A model that consistently scores 0.68 won't alert at 0.69.
+            A model that usually scores 0.95 but suddenly drops to 0.72 will alert, because that's 1.5+ standard
+            deviations below its baseline. This is how production ML monitoring works (Arize, Evidently, Fiddler).
+            <div class="qa-trap">Common trap: don't say "I set the threshold to 1.5 sigma" — say "I set the z-score threshold to 1.5σ, which means a 1.5 standard deviation deviation from the baseline distribution."</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">Why Mann-Whitney U instead of a t-test for your A/B comparison?</td>
+          <td class="qa-a">
+            LLM quality scores are bounded [0, 1] and often non-normal — they can be bimodal
+            (questions where the model is either very faithful or completely wrong, with few values in between).
+            The t-test assumes normality, which is incorrect here. Mann-Whitney U is non-parametric:
+            it ranks all scores from both groups together and tests whether one group's ranks tend to be higher.
+            It makes no distribution assumption and works correctly at small sample sizes (n=5–10), which is typical
+            for LLM evaluation sets (they're expensive to run). I also compute rank-biserial correlation as an effect
+            size, which gives a meaningful -1 to +1 number for "how different are these distributions."
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">What's the difference between your Prometheus gauge, counter, and histogram? Why each?</td>
+          <td class="qa-a">
+            Counter for cumulative counts that only go up:
+            <code>llm_requests_total</code> (total calls), <code>llm_tokens_total</code>.
+            You can compute rate() from a counter in Grafana.<br><br>
+            Histogram for latency: <code>llm_latency_seconds</code> with 6 buckets (0.5, 1.0, 2.0, 3.0, 5.0, 10.0s).
+            Histograms let you compute percentiles (p95, p99) in Grafana — critical for SLA monitoring.<br><br>
+            Gauge for point-in-time values that go up and down: <code>llm_error_rate</code> (rolling 100-req fraction)
+            and <code>llm_active_requests</code> (in-flight count). Gauges represent current state, not cumulative totals.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">How does your CI pipeline prevent a bad prompt from reaching production?</td>
+          <td class="qa-a">
+            The GitHub Actions workflow has two jobs: unit tests run on every PR (fast, no API key).
+            On merge to main, an integration job runs the A/B test CLI with <code>--fail-on-regression</code>.
+            This compares the new prompt version against the baseline using Mann-Whitney U on 5 test questions.
+            If the new prompt is statistically significantly worse (p &lt; 0.05 AND mean_new &lt; mean_baseline),
+            the script exits with code 1, which fails the CI job and blocks deployment.
+            The MLflow run is uploaded as a GitHub artifact, so you have a permanent record of every
+            evaluation that ran in CI.
+            <div class="qa-trap">Be ready to explain: "What if 5 questions isn't enough for statistical power?" — answer: "At n=5, the minimum detectable p-value with Mann-Whitney is ~0.05. For larger differences this works; for subtle ones, we'd need more questions. The tradeoff is evaluation cost vs. sensitivity."</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">Why log prompt version as an MLflow tag instead of a parameter?</td>
+          <td class="qa-a">
+            MLflow's "Compare Runs" view treats parameters as hyperparameters — it tries to show them
+            in a parameter importance chart and as axes for parallel coordinate plots.
+            A string like "rag_qa_v1" breaks those numeric visualizations. Tags in MLflow are metadata:
+            they appear in the runs table as filterable columns, support string values, and don't interfere
+            with metric comparison charts. The pattern <code>prompt.name</code> and <code>prompt.version</code>
+            as tags maps directly to how ML teams tag model versions in production MLflow deployments.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">How does your alert engine handle alert storms (same alert firing repeatedly)?</td>
+          <td class="qa-a">
+            Each AlertRule has a <code>cooldown_seconds</code> field (default 300s = 5 minutes).
+            When a rule fires, its name is recorded in <code>_last_fired</code> with the epoch timestamp.
+            On each subsequent <code>evaluate()</code> call, I check if the time since last fire is less than
+            <code>cooldown_seconds</code>. If it is, the rule is skipped even if the metric is still bad.
+            This prevents a metrics collection loop running every 10 seconds from generating 360 duplicate
+            "faithfulness_low" alerts per hour. The alert remains "FIRING" in the active state — it just
+            doesn't generate new AlertEvent objects. Resolution happens automatically when the metric
+            recovers, or manually via <code>acknowledge_alert()</code>.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">Why use the groq Python SDK directly instead of langchain-groq?</td>
+          <td class="qa-a">
+            Two reasons. First: exact token counts. The groq SDK returns <code>response.usage.prompt_tokens</code>
+            and <code>response.usage.completion_tokens</code> directly from the API response. LangChain wraps this
+            inconsistently — sometimes it re-tokenizes locally, sometimes it relies on callback handlers, and the
+            numbers can differ from the actual API billing. For a cost-tracking component, exact counts matter.
+            Second: minimal dependency surface. The gateway is a thin instrumentation layer — it shouldn't pull in
+            15 LangChain transitive dependencies. The groq SDK is a single focused package. This also demonstrates
+            that I understand the provider API directly, not just the LangChain abstraction over it.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="qa-q">How would you scale this to a multi-tenant enterprise deployment?</td>
+          <td class="qa-a">
+            Several extensions: (1) The Prometheus labels already have <code>prompt_name</code> — add
+            <code>tenant_id</code> as a second label for per-tenant dashboards without code changes.
+            (2) MLflow supports remote tracking servers (Postgres + S3) — change
+            <code>MLFLOW_TRACKING_URI</code> to point there. (3) The alert engine rules are in-memory now;
+            replace with a Redis-backed store for distributed deployments. (4) The inference gateway is
+            stateless (Prometheus metrics use internal locks) — it runs correctly behind a load balancer.
+            (5) For audit compliance, the YAML prompt registry is already git-tracked — add branch protection
+            rules requiring approval before prompt changes merge to main.
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <div class="recall-box">
+      <h4>Active Retrieval Exercise — Cover the answer column and answer these out loud</h4>
+      <ol>
+        <li>
+          What is z-score drift detection and why is it better than a fixed threshold?
+          <div class="recall-answer">Z-score compares window mean vs. baseline mean in units of baseline standard deviation. Adapts to your model's natural variance.</div>
+        </li>
+        <li>
+          Why Mann-Whitney U and not a t-test?
+          <div class="recall-answer">LLM scores are bounded, non-normal, and we have small samples (n=5-10). Mann-Whitney is non-parametric — no normality assumption.</div>
+        </li>
+        <li>
+          What is the difference between a Prometheus Counter, Histogram, and Gauge?
+          <div class="recall-answer">Counter: only goes up (requests, tokens). Histogram: records distributions (latency, enables percentiles). Gauge: current state up/down (error rate, active requests).</div>
+        </li>
+        <li>
+          Why YAML prompts instead of a database?
+          <div class="recall-answer">Git-trackable, PR-reviewable, auditable with git blame, rollback = git revert. Lives with the codebase.</div>
+        </li>
+        <li>
+          What prevents the CI pipeline from deploying a bad prompt?
+          <div class="recall-answer">--fail-on-regression exits with code 1 if new prompt is significantly worse (Mann-Whitney p&lt;0.05 + lower mean), blocking the CI job.</div>
+        </li>
+        <li>
+          What is alert cooldown and why does it matter?
+          <div class="recall-answer">Cooldown_seconds prevents the same rule from re-firing within that window. Stops alert storms when a metrics loop runs every 10 seconds.</div>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     CHEAT SHEET
+════════════════════════════════════════════════════════════════════════ -->
+<div class="cheat-sheet">
+  <div class="cheat-header">
+    One-Page Cheat Sheet — Review the night before the interview
+  </div>
+  <div class="cheat-body">
+    <div class="cheat-grid">
+
+      <div class="cheat-col">
+        <h4>7 Components</h4>
+        <ul>
+          <li><strong>Registry</strong> — YAML prompts, git-versioned, <code>render()</code></li>
+          <li><strong>Gateway</strong> — groq SDK direct, Prometheus on every call</li>
+          <li><strong>MLflow Tracker</strong> — runs, tags (not params), artifacts</li>
+          <li><strong>Drift Detector</strong> — z-score, 5-run baseline, 1.5σ threshold</li>
+          <li><strong>Alert Engine</strong> — 4 default rules, 300s cooldown, FIRING→RESOLVED</li>
+          <li><strong>A/B Runner</strong> — Mann-Whitney U, p&lt;0.05, effect size, CI exit code</li>
+          <li><strong>UI/API</strong> — Gradio :7862, FastAPI :8000, MLflow UI :5000</li>
+        </ul>
+      </div>
+
+      <div class="cheat-col">
+        <h4>Prometheus Metric Types</h4>
+        <ul>
+          <li><strong>Counter:</strong> <code>llm_requests_total</code> (labels: prompt_name, status)</li>
+          <li><strong>Counter:</strong> <code>llm_tokens_total</code> (labels: prompt_name, token_type)</li>
+          <li><strong>Histogram:</strong> <code>llm_latency_seconds</code> (6 buckets)</li>
+          <li><strong>Gauge:</strong> <code>llm_error_rate</code> (rolling 100 req)</li>
+          <li><strong>Gauge:</strong> <code>llm_active_requests</code> (in-flight)</li>
+        </ul>
+      </div>
+
+      <div class="cheat-col">
+        <h4>Key Formulas</h4>
+        <ul>
+          <li><strong>Z-score:</strong> (window_mean − baseline_mean) / baseline_std</li>
+          <li><strong>Drift:</strong> |z| > 1.5σ</li>
+          <li><strong>Overall score:</strong> 0.3×CP + 0.4×Faith + 0.3×Rel</li>
+          <li><strong>Effect size:</strong> 1 − (2U / n₁n₂) [rank-biserial]</li>
+          <li><strong>A/B significance:</strong> p &lt; 0.05 (Mann-Whitney U)</li>
+        </ul>
+      </div>
+
+      <div class="cheat-col">
+        <h4>Default Alert Rules</h4>
+        <ul>
+          <li><strong>faithfulness_low</strong>: &lt;0.70 → CRITICAL</li>
+          <li><strong>relevancy_degraded</strong>: &lt;0.65 → WARNING</li>
+          <li><strong>latency_high</strong>: &gt;3000ms → WARNING</li>
+          <li><strong>context_precision_low</strong>: &lt;0.60 → INFO</li>
+        </ul>
+        <h4 style="margin-top:10px">Why Each SDK/Tool Choice</h4>
+        <ul>
+          <li><strong>groq SDK</strong>: exact token counts from response.usage</li>
+          <li><strong>YAML not DB</strong>: git blame, PR review, rollback</li>
+          <li><strong>Mann-Whitney</strong>: non-parametric, bounded scores</li>
+          <li><strong>Tags not params</strong>: MLflow Compare Runs stays clean</li>
+          <li><strong>Module-level Prometheus</strong>: survives hot-reload</li>
+        </ul>
+      </div>
+
+      <div class="cheat-col">
+        <h4>Tests: 51 passing, 0.86s</h4>
+        <ul>
+          <li>TestConfig (6) — validate, thresholds, defaults</li>
+          <li>TestPromptRegistry (8) — load, render, diff, KeyError</li>
+          <li>TestMetricsHistory (11) — baseline lock, drift, reset, chart</li>
+          <li>TestAlertEngine (10) — fire, cooldown, add/remove, ack</li>
+          <li>TestEvaluatorMetrics (11) — Jaccard, precision, overall</li>
+          <li>TestABTestStats (5) — Mann-Whitney, significance, effect size</li>
+        </ul>
+      </div>
+
+      <div class="cheat-col">
+        <h4>Recruiter Keywords</h4>
+        <ul>
+          <li><strong>Arize AI:</strong> observability, drift detection, Prometheus</li>
+          <li><strong>Anthropic:</strong> prompt versioning, A/B testing, eval CI</li>
+          <li><strong>Glean:</strong> enterprise monitoring, alert rules, MLflow</li>
+          <li><strong>General:</strong> LLMOps, inference gateway, production ML</li>
+        </ul>
+        <h4 style="margin-top:10px">One-Liner for Each Decision</h4>
+        <ul>
+          <li>YAML: "git blame shows who changed what and when"</li>
+          <li>Z-score: "adapts to baseline variance"</li>
+          <li>Mann-Whitney: "no normality assumption, correct for bounded scores"</li>
+          <li>Cooldown: "prevents alert storms"</li>
+          <li>Tags not params: "keeps MLflow Compare Runs clean"</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; margin-top:32px; color: var(--gray-mid); font-size:0.82rem;">
+  LLMOps Starter Kit · Interview Prep Guide · A.S. Siva Suresh Kumar<br>
+  github.com/atkuri-siva-suresh/-llmops-starter-kit
+</div>
+
+</div><!-- /container -->
+</body>
+</html>
