@@ -1,0 +1,93 @@
+name: LLMOps Evaluation CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: Unit Tests (no API key required)
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install CPU-only torch (avoids 2GB CUDA download)
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install project dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest tests/test_llmops.py -v --tb=short
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pytest-results
+          path: .pytest_cache/
+          retention-days: 7
+
+  eval-integration:
+    runs-on: ubuntu-latest
+    name: Integration Eval (requires GROQ_API_KEY secret)
+    # Only runs on push to main (not PRs) to conserve free-tier quota
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install CPU-only torch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install project dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pre-download embedding model
+        run: |
+          python -c "
+          from sentence_transformers import SentenceTransformer
+          SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+          print('Embedding model ready')
+          "
+
+      - name: Run A/B test — rag_qa_v1 vs rag_qa_v2
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python experiments/run_ab_test.py \
+            --prompt-a rag_qa_v1 \
+            --prompt-b rag_qa_v2 \
+            --n-questions 5 \
+            --log-mlflow \
+            --fail-on-regression
+        # Exit code 1 blocks merge if prompt B is significantly WORSE than A
+
+      - name: Upload MLflow artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mlflow-experiment-runs
+          path: mlruns/
+          retention-days: 30

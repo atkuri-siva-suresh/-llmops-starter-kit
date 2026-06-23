@@ -1,0 +1,39 @@
+# ── LLM provider (Groq free tier) ────────────────────────────────────────────
+# Sign up free at https://console.groq.com — no credit card needed
+groq>=0.11.0
+
+# ── Embeddings (local, no API key, no GPU required) ──────────────────────────
+# IMPORTANT: Install torch FIRST with CPU wheel:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers>=3.4.0
+
+# ── Experiment Tracking ───────────────────────────────────────────────────────
+# Local MLflow UI: mlflow ui --port 5000
+mlflow>=2.19.0
+
+# ── Inference Gateway / API ───────────────────────────────────────────────────
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+pydantic>=2.10.0
+httpx>=0.28.0
+
+# ── Monitoring (Prometheus-compatible metrics endpoint) ───────────────────────
+prometheus-client>=0.21.0
+
+# ── UI ────────────────────────────────────────────────────────────────────────
+gradio>=6.0.0
+
+# ── Statistical Testing (A/B comparison) ─────────────────────────────────────
+scipy>=1.15.0
+numpy>=1.26.0
+
+# ── YAML parsing (prompt registry) ───────────────────────────────────────────
+pyyaml>=6.0.2
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+rich>=13.9.0
+
+# ── Dev / Testing ─────────────────────────────────────────────────────────────
+pytest>=8.3.0
+pytest-asyncio>=0.25.0

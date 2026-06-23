@@ -1,0 +1,55 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# MLflow — experiment data stays local, artifacts uploaded to CI
+mlruns/
+mlartifacts/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.xml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Sentence Transformers model cache (large, re-downloadable)
+# Uncomment if you want to exclude the cache:
+# .cache/
+
+# Gradio temp files
+gradio_cached_examples/
+flagged/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

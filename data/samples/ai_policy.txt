@@ -1,0 +1,85 @@
+ENTERPRISE AI GOVERNANCE POLICY
+Version 2.1 | Effective Date: January 1, 2026
+Issued by: Office of the Chief AI Officer
+
+1. PURPOSE AND SCOPE
+
+This policy governs the development, deployment, and operation of all artificial intelligence and machine learning systems within the organization. It applies to all employees, contractors, and third-party vendors who build or use AI systems that process company data or make decisions affecting customers, employees, or business operations.
+
+The policy covers all AI models including large language models, predictive models, recommendation systems, computer vision systems, and automated decision-making tools. It does not apply to standard business software that does not incorporate machine learning components.
+
+2. MODEL APPROVAL PROCESS
+
+All AI models must complete a three-stage review process before deployment to production environments.
+
+Stage 1: Technical Review
+The Engineering team evaluates model architecture, training data quality, performance benchmarks, and infrastructure requirements. This stage must be completed within 10 business days of submission.
+
+Stage 2: Ethics and Fairness Review
+The AI Ethics Committee evaluates potential bias, fairness metrics across protected demographic groups, and societal impact. This stage must be completed within 10 business days.
+
+Stage 3: Legal and Compliance Review
+The Legal team evaluates regulatory compliance including GDPR, CCPA, and sector-specific regulations. This stage must be completed within 10 business days.
+
+The total approval SLA is 30 days from submission to final decision. Expedited review (15-day SLA) is available for critical business needs with written approval from the Chief AI Officer.
+
+3. DATA CLASSIFICATION AND HANDLING
+
+All data used in AI systems must be classified into one of three tiers before use:
+
+Tier 1 - Public Data: Publicly available information with no privacy restrictions. No additional controls required. Examples: publicly published reports, open-source datasets, news articles.
+
+Tier 2 - Internal Data: Internal business data with no personally identifiable information. Requires data governance approval before use in model training. Examples: aggregated sales figures, anonymized transaction logs, internal operational metrics.
+
+Tier 3 - Confidential PII: Data containing personally identifiable information including names, addresses, financial records, health information, or government ID numbers. Requires explicit Data Protection Officer approval, end-to-end encryption at rest and in transit, access logging, and data minimization review. Models trained on Tier 3 data must implement differential privacy techniques where technically feasible.
+
+4. HUMAN OVERSIGHT REQUIREMENTS
+
+AI-driven decisions must include mandatory human review checkpoints based on impact scale and risk level.
+
+Volume Threshold: All automated decisions affecting more than 1,000 users in a single batch must include a human review step before execution. This applies to personalization changes, pricing adjustments, access control modifications, and communication campaigns.
+
+Financial Threshold: Autonomous AI-generated financial decisions exceeding $50,000 require human approval before execution. This applies to procurement recommendations, budget allocations, and customer credit decisions.
+
+High-Risk Decisions: The following decision categories always require human review regardless of scale: employment decisions including hiring, promotion, and termination; medical or health-related recommendations; legal or compliance determinations; and any decision that denies a customer a material benefit.
+
+5. INCIDENT RESPONSE PROTOCOL
+
+When an AI system produces an unexpected, harmful, or potentially biased output, the following protocol applies:
+
+Immediate Response (0-2 hours): The system must be flagged for review within 30 minutes of incident identification. The Chief Information Security Officer (CISO) must be notified within 2 hours of any AI incident that affects customer data, produces discriminatory outputs, or causes financial harm exceeding $10,000.
+
+Escalation Window: All AI incidents must have an initial assessment completed and escalation decision made within 24 hours. Incidents rated High or Critical severity must be escalated to executive leadership within the same 24-hour window.
+
+Remediation: Root cause analysis must be completed within 5 business days. Model redeployment after an incident requires a fresh Stage 2 and Stage 3 review.
+
+6. ACCEPTABLE USE POLICY
+
+The following uses of AI systems are explicitly prohibited:
+
+- Generating deepfake content of real individuals without explicit consent
+- Autonomous financial decisions exceeding the $50,000 threshold without human approval
+- Surveillance of employees without explicit disclosure and consent
+- Using AI to circumvent human oversight requirements defined in Section 4
+- Training models on Tier 3 data without Data Protection Officer approval
+- Deploying models to production without completing the three-stage approval process
+
+7. AUDIT AND COMPLIANCE
+
+Quarterly Audits: All production AI systems are subject to quarterly audits by the Internal Audit team. Audits evaluate compliance with this policy, model performance drift, data handling practices, and bias metrics.
+
+Log Retention: All AI system decision logs, including inputs, outputs, model versions, and timestamps, must be retained for a minimum of 18 months. Logs involving Tier 3 data must be retained for 36 months to comply with regulatory requirements.
+
+Annual Review: This policy is reviewed and updated annually by the AI Governance Committee, composed of representatives from Engineering, Legal, Ethics, Risk, and the Chief AI Officer's office.
+
+8. ROLES AND RESPONSIBILITIES
+
+Chief AI Officer: Owns this policy, chairs the AI Governance Committee, provides final approval for expedited reviews, and signs off on High and Critical incident escalations.
+
+AI Ethics Committee: Conducts Stage 2 reviews, monitors ongoing bias metrics for deployed models, and advises on emerging ethical risks.
+
+Data Protection Officer: Approves use of Tier 3 data, oversees GDPR and CCPA compliance, and is notified of all incidents involving personal data.
+
+Engineering Teams: Responsible for technical implementation of controls, maintaining audit logs, and completing Stage 1 reviews for systems they build.
+
+All Employees: Must complete mandatory AI Awareness Training annually and report potential AI policy violations to the AI Ethics Committee.

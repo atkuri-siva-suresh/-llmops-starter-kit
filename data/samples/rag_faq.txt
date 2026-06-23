@@ -1,0 +1,74 @@
+RETRIEVAL AUGMENTED GENERATION: ENTERPRISE FAQ
+A Technical Guide for AI Practitioners
+
+WHAT IS RETRIEVAL AUGMENTED GENERATION?
+
+Retrieval Augmented Generation, commonly called RAG, is an AI architecture that combines a document retrieval system with a large language model. Instead of relying solely on information the model learned during training, RAG retrieves relevant documents from a knowledge base at query time and provides them as context to the language model. This grounds the model's response in real, current, and organization-specific information.
+
+RAG was introduced in a 2020 paper by Lewis et al. at Facebook AI Research. Since then it has become the dominant architecture for enterprise question-answering systems because it significantly reduces hallucinations, allows the model to work with proprietary knowledge, and eliminates the need for expensive model fine-tuning when information changes.
+
+WHY DOES RAG MATTER FOR ENTERPRISES?
+
+Large language models are trained on data up to a cutoff date and have no knowledge of your internal documents, policies, or recent events. RAG solves three critical enterprise problems simultaneously.
+
+First, it enables knowledge grounding. The model answers based on your actual documents rather than making up plausible-sounding but incorrect answers. This is essential for compliance, legal, and customer-facing applications.
+
+Second, it removes the need for frequent retraining. When your policies or products change, you update the knowledge base rather than retraining an expensive model. This makes RAG systems dramatically cheaper to maintain than fine-tuned models.
+
+Third, it provides auditability. Because the system retrieves specific passages before generating an answer, you can show users exactly which documents informed each response, enabling citation and trust.
+
+WHAT IS THE DIFFERENCE BETWEEN SEMANTIC SEARCH AND KEYWORD SEARCH?
+
+Keyword search, used in traditional search engines and databases, matches exact words or their stemmed forms. If you search for "employment termination policy" but the document uses the phrase "staff separation procedure," keyword search will not find it.
+
+Semantic search uses dense vector embeddings to match meaning rather than words. Both "employment termination" and "staff separation procedure" will map to similar locations in embedding space, so semantic search correctly identifies the relevant document even when different words are used.
+
+For RAG systems, semantic search via vector embeddings is strongly preferred over keyword search because enterprise documents use varied terminology and the question phrasing rarely matches the exact words in the source document.
+
+WHAT EMBEDDING MODELS WORK WELL FOR ENTERPRISE RAG?
+
+For general enterprise content including policies, reports, and FAQ documents, the sentence-transformers family from HuggingFace provides excellent results at zero cost. The all-MiniLM-L6-v2 model produces 384-dimensional embeddings and runs efficiently on CPU hardware. It achieves strong performance on semantic textual similarity benchmarks while requiring only 90 megabytes of storage.
+
+For more demanding applications, all-mpnet-base-v2 produces 768-dimensional embeddings with higher accuracy at roughly twice the computational cost. For multilingual content including Indian language documents, the paraphrase-multilingual-MiniLM-L12-v2 model supports 50 languages including Hindi and Tamil.
+
+OpenAI's text-embedding-3-small and Anthropic-compatible embedding APIs provide higher accuracy on complex technical content but require API costs per token. For most enterprise RAG applications, the open-source sentence-transformers models provide 85-90% of the accuracy at zero marginal cost.
+
+WHAT CHUNK SIZE SHOULD I USE?
+
+Chunk size significantly impacts retrieval quality and is one of the most important tuning decisions in RAG system design. There is no single correct answer — the optimal chunk size depends on your document type, question style, and language model context window.
+
+Chunks that are too small (under 100 characters) lose context and produce semantically incomplete units. When a chunk says "The threshold is $50,000" without the surrounding sentence that explains it is a financial decision threshold, the retriever cannot correctly assess its relevance.
+
+Chunks that are too large (over 2,000 characters) dilute retrieval precision. The embedding of a large chunk averages over many topics, making it less specific to any single concept. You also risk exceeding the language model's context window if you retrieve multiple large chunks.
+
+For policy and FAQ documents with dense factual content, a chunk size of 400 to 600 characters with 50 to 100 characters of overlap works well. The overlap prevents important information at chunk boundaries from being split and lost. For narrative documents or research reports, larger chunks of 800 to 1,200 characters often perform better because they preserve more argumentative context.
+
+WHAT CAUSES HALLUCINATIONS IN RAG SYSTEMS?
+
+Hallucinations in RAG systems occur for three main reasons, each requiring a different fix.
+
+The first cause is retrieval failure. If the retrieved chunks are irrelevant to the question, the language model receives unhelpful context and generates an answer from its training data instead. This is a retrieval quality problem, fixed by improving embeddings, chunk size, or retrieval strategy.
+
+The second cause is context overflow. When the retrieved context is longer than the model's effective attention window, later parts of the context are effectively ignored. The model then answers from training data for any question whose answer appears late in the context. This is fixed by reducing chunk count or size.
+
+The third cause is instruction non-compliance. Some language models, particularly smaller ones, fail to consistently follow the instruction "answer only from the context." They drift toward generating plausible answers from training data. This is fixed by using a stronger model, tightening the system prompt, or adding an explicit verification step.
+
+HOW DO YOU EVALUATE RAG QUALITY?
+
+Measuring RAG quality requires evaluating two independent components: the retriever and the generator.
+
+Retriever evaluation measures whether the chunks returned for a question actually contain the information needed to answer it. The key metrics are Context Precision (what fraction of retrieved chunks are relevant to the question) and Context Recall (did we retrieve all the chunks needed to answer completely). High precision means few irrelevant chunks pollute the context. High recall means no critical information was missed.
+
+Generator evaluation measures whether the language model used the retrieved context correctly. Faithfulness measures whether every claim in the answer is supported by the retrieved context — this is the primary hallucination metric. Answer Relevancy measures whether the answer actually addresses the question asked.
+
+The combination of high faithfulness and high answer relevancy, built on high context precision and recall, defines a production-grade RAG system.
+
+WHAT IS THE DIFFERENCE BETWEEN SPARSE AND DENSE RETRIEVAL?
+
+Sparse retrieval, including BM25 and TF-IDF, represents documents as high-dimensional sparse vectors where most values are zero. Each dimension corresponds to a word in the vocabulary. These methods excel at exact keyword matching and are computationally fast.
+
+Dense retrieval uses neural embedding models to represent documents and queries as low-dimensional dense vectors, typically 384 to 1,536 dimensions, where every value is non-zero. These methods capture semantic meaning and handle vocabulary mismatches but require more computation.
+
+Hybrid retrieval combines both approaches. The sparse component finds documents with exact keyword matches while the dense component finds semantically similar documents. Many production RAG systems use hybrid retrieval with reciprocal rank fusion to combine the two result sets, achieving better overall recall than either method alone.
+
+For enterprise RAG systems with fewer than one million documents, dense retrieval with FAISS is typically sufficient. For larger corpora, hybrid retrieval with Elasticsearch or OpenSearch for the sparse component is recommended.
